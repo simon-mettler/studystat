@@ -1,0 +1,90 @@
+html {
+  background: hsl(0, 0%, 95%);
+}
+
+body { margin: 0; }
+
+
+p, h1, a {
+  font-family: Arial, sans-serif;
+  color: hsl(0, 0%, 20%);
+}
+
+header {
+  margin: 60px 0;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: ". . . . . .";
+  gap: 20px;
+}
+
+
+.js-plotly-plot {
+  padding: 20px;
+  transform: translateY(-61px);
+}
+
+.data-field {
+  background-color: white;
+  height: 480px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.data-field:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.field-name {
+  margin: 0;
+  padding: 20px 0 18px 20px;
+  border-bottom: 1px solid hsl(0, 0%, 80%);
+  position: relative;
+  pointer-events: none;
+}
+
+.gesamt_bar {
+  grid-column: 1 / 4;
+}
+
+
+
+.gesamt_pie {
+  grid-column: 4 / 7;
+}
+
+.timeWeekly {
+  grid-column: 1 / 7;
+}
+
+.dayTime {
+  grid-column: 1 / 7;
+}
+
+.svg-container .main-svg {
+  background: none!important;
+}
+
+footer {
+  background-color: white;
+  margin-top: 100px;
+  box-shadow: 0 -5px 5px -5px rgba(0,0,0,0.24);
+  padding: 20px 0;
+}
+
+footer p {
+  max-width: 1200px;
+  margin: 5px auto;
+  text-align: center;
+  font-size: .9em;
+}
