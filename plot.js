@@ -1,12 +1,10 @@
 // Load csv data.
 function makeplot() {
-  Plotly.d3.csv("data-semester_01.csv", function(data){ processData(data) } );
+  Plotly.d3.csv("data/semester_01.csv", function(data){ processData(data) } );
 };
 
 // Processes .csv data.
 function processData(allRows) {
-
-  console.log(allRows);
 
   // Sets arrays.
   let dur = [], project = [], sdate = [], edate = [], stime = [], etime = [];
@@ -19,44 +17,53 @@ function processData(allRows) {
     project.push( row['Project'] );
     sdate.push( row['Start Date'] );
     edate.push( row['End Date'] );
-    stime.push( new Date("2020-01-01T" + row['Start Time']).getHours()); // Extract only hours (e.g. 17 for 17:08:45)
-    etime.push(new Date("2020-01-01T" + row['End Time']).getHours() );
 
+    // Maybe for later...
+    // stime.push( new Date("2020-01-01T" + row['Start Time']).getHours()); // Extract only hours (e.g. 17 for 17:08:45)
+    // etime.push(new Date("2020-01-01T" + row['End Time']).getHours() );
+
+    // Rounds number.
+    dur = dur.map(x => parseFloat(x).toFixed(1)); // Why TF returns toFixed() a string?!
 
   }
-
-
-
-
 
   // Calls functions to print out charts.
   gesamtBar(dur, project);
   gesamtPie(dur, project);
   timeWeekly(sdate, dur);
-  dayTime(stime);
 
-  gesamtNum(dur);
+  variousCalc(dur);
 
 }
 
+// Svg download settings.
+let svgDownload = {
+  format: 'svg', 
+  filename: 'studystat_simon-mettler',
+  height: 500,
+  width: 700,
+  scale: 1
+}
 
+// Calculates total time, average, ...
+function variousCalc(dur) {
 
-// Calculates total time spent.
-function gesamtNum(dur) {
+  // Days from first to last week of learning
+  let days = 140;
 
   // Reduces array to one floatnumber.
-  const arrAdd = (a, b) => parseFloat(a) + parseFloat(b);
-  reduced = dur.reduce(arrAdd);
+  const arrAdd = (a, b) => parseFloat(a) + parseFloat(b); // Inefficient AF...
+  total = dur.reduce(arrAdd);
 
+  // Gets average from array
   const arrAvg = (a, b) => (parseFloat(a) + parseFloat(b));
   average = dur.reduce(arrAvg) / dur.length;
 
-
   // Prints total (and sets to one decimal point).
-  document.getElementById("info_total").innerHTML = "<b>Aufwand total:</b> " + reduced.toFixed(1) + "h";
+  document.getElementById("info_total").innerHTML = "<b>Aufwand total:</b> " + total.toFixed(1) + "h (" + days + " Tage)";
   document.getElementById("info_schnitt").innerHTML = "<b>&empty; pro Session:</b> " + (60 * average).toFixed(0) + "min";
+  document.getElementById("info_tag").innerHTML = "<b>&empty; pro Tag:</b> " + (60 * total / days).toFixed(0) + "min";
 
-  // 140
 }
 
 // Creates bar chart.
@@ -69,32 +76,37 @@ function gesamtBar(dur, project) {
     transforms: [{
       type: 'aggregate',
       groups: project,
-      aggregations: [
-        {target: 'y', func: 'sum', enabled: true},
-      ]
+      aggregations: [{
+        target: 'y', 
+        func: 'sum', 
+        enabled: true
+      }]
     }]
   }]
 
   let layout = {
-    hovermode: 'closest'
+    hovermode: 'closest',
+    yaxis: { ticksuffix: " h" }
   }
 
-  Plotly.newPlot(
-    'gesamt_bar', data, layout, 
-    { 
-      responsive: true, 
-      displayModeBar: true, 
-      displaylogo: false,
-      toImageButtonOptions: {
-        format: 'svg', // one of png, svg, jpeg, webp
-        filename: 'studystat_simon-mettler',
-        height: 500,
-        width: 700,
-        scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
-      },
-      modeBarButtonsToRemove: ['select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'hoverCompareCartesian', 'toggleSpikelines', 'hoverClosestCartesian', 'autoScale2d']
-    }
-  );
+  let config = {
+    responsive: true, 
+    displayModeBar: true, 
+    displaylogo: false,
+    toImageButtonOptions: svgDownload,
+    modeBarButtonsToRemove: [
+      'select2d', 
+      'lasso2d', 
+      'zoomIn2d', 
+      'zoomOut2d', 
+      'hoverCompareCartesian', 
+      'toggleSpikelines', 
+      'hoverClosestCartesian', 
+      'autoScale2d'
+    ]
+  }
+
+  Plotly.newPlot( 'gesamt_bar', data, layout, config );
 
 }
 
@@ -107,6 +119,9 @@ function gesamtPie(dur, project) {
     values: dur,
     textinfo: "percent",
     textposition: "inside",
+    insidetextfont: {color: "white"},
+    hovertemplate: "%{label}:<br> %{value} h <br>(%{percent}) <extra></extra>",
+    
     transforms: [{
       type: 'aggregate',
       groups: project,
@@ -116,12 +131,22 @@ function gesamtPie(dur, project) {
     }]
   }]
 
-  var layout = {
+  let layout = { 
   }
 
-  Plotly.newPlot('gesamt_pie', data, layout, {responsive: true, displayModeBar: true, displaylogo: false, modeBarButtonsToRemove: ['hoverClosestPie'] });
+  let config = {
+    responsive: true, 
+    displayModeBar: true, 
+    displaylogo: false, 
+    modeBarButtonsToRemove: ['hoverClosestPie'],
+    toImageButtonOptions: svgDownload
+  }
+
+  Plotly.newPlot( 'gesamt_pie', data, layout, config );
+
 }
 
+// Creates weekly time chart.
 function timeWeekly(sdate, dur) {
 
   let data = [{
@@ -133,9 +158,7 @@ function timeWeekly(sdate, dur) {
       start: '2019-09-09',
       size: '604800000', // one week
       end: '2020-02-02'
-
     },
-
     marker: {
       line: {
         color:  "white", 
@@ -144,91 +167,29 @@ function timeWeekly(sdate, dur) {
     }
   }]
 
-  var layout = {
-
-  }
-
-  Plotly.newPlot('timeWeekly', data, layout, {responsive: true, displayModeBar: true,      displaylogo: false,
-       
-    toImageButtonOptions: {
-    format: 'svg', 
-    filename: 'studystat_simon-mettler',
-    height: 500,
-    width: 700,
-    scale: 1
-  },
-  modeBarButtonsToRemove: ['select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'hoverCompareCartesian', 'toggleSpikelines', 'hoverClosestCartesian', 'autoScale2d']});
-
-  console.log(sdate);
-
+  let layout = {
+    hovermode: 'closest',
+    yaxis: { ticksuffix: " h" }
 }
 
-function dayTime(stime) {
-
-  let bar = [{
-    type: 'bar',
-    x: stime,
-    y: stime,
-    transforms: [{
-      type: 'aggregate',
-      groups: stime,
-      aggregations: [
-        {target: 'y', func: 'count', enabled: true}, // what is enabled: true for?
-      ]
-    }]
-
-  }]
-
-  // stime.push(5, 22);
-
-let line = [{
-
-  x: stime,
-  y: stime,
-
-  type: 'scatter',
-  line: {shape: 'spline',     dash: 'dot'},
-  fill: 'tozeroy',
-
-  transforms: [{
-    type: 'aggregate',
-    groups: stime,
-    aggregations: [
-      {target: 'y', func: 'count', enabled: true}, // what is enabled: true for?
-    ]
-  },{
-    type: 'sort',
-    target: 'x',
-    order: 'ascending'
-  }]
-
-}]
-
-let data = line;
-
-
-  let layout = {
-    xaxis: {
-      ticksuffix: " Uhr",
-      zeroline: false,
-      range: [1, 23],
-
-
-    },
-    yaxis: {
-
-
-      domain: [0.5,1],
-
-
-    }
-  }
-
   let config = {
-
+    responsive: true,
+    displayModeBar: true,
+    displaylogo: false,       
+    toImageButtonOptions: svgDownload,
+    modeBarButtonsToRemove: [
+      'select2d',
+      'lasso2d',
+      'zoomIn2d',
+      'zoomOut2d',
+      'hoverCompareCartesian',
+      'toggleSpikelines',
+      'hoverClosestCartesian',
+      'autoScale2d'
+    ]
   }
 
-  Plotly.newPlot( 'daytime', data, layout, config )
+  Plotly.newPlot( 'timeWeekly', data, layout, config );
 
 }
 

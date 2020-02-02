@@ -1,13 +1,10 @@
-html {
-  background: hsl(0, 0%, 95%);
-}
+html { background: hsl(0, 0%, 95%); }
 
 body { margin: 0; }
 
-
 p, h1, a {
-  font-family: Arial, sans-serif;
   color: hsl(0, 0%, 20%);
+  font-family: Arial, sans-serif;
 }
 
 header {
@@ -27,6 +24,20 @@ header {
   gap: 20px;
 }
 
+.overview {
+  grid-column: 1 / 4;
+}
+
+.data-field.subjects {
+  grid-column: 4 / 7;
+  height: auto;
+}
+
+.subjects p:nth-last-of-type(1) {
+  margin: 0;
+  padding: 13px 20px;
+  line-height: 22px;
+}
 
 .js-plotly-plot {
   padding: 20px;
@@ -57,22 +68,12 @@ header {
   grid-column: 1 / 4;
 }
 
-
-
 .gesamt_pie {
   grid-column: 4 / 7;
 }
 
 .timeWeekly {
   grid-column: 1 / 7;
-}
-
-.dayTime {
-  grid-column: 1 / 7;
-}
-
-.svg-container .main-svg {
-  background: none!important;
 }
 
 footer {
@@ -88,3 +89,11 @@ footer p {
   text-align: center;
   font-size: .9em;
 }
+
+/* Removes plotly svg background */
+.svg-container .main-svg {
+  background: none!important;
+}
+
+
+.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
