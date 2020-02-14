@@ -1,3 +1,5 @@
 # StudyStat
 
-[BSc FHGR Information Science](https://simonmettler.com/studystat/)
+Aufwand BSc FHGR Information Science
+
+[Semester 1](https://simonmettler.com/studystat/)
