@@ -61,8 +61,8 @@ function variousCalc(dur) {
 
   // Prints total (and sets to one decimal point).
   document.getElementById("info_total").innerHTML = "<b>Aufwand total:</b> " + total.toFixed(1) + "h (" + days + " Tage)";
-  document.getElementById("info_schnitt").innerHTML = "<b>&empty; pro Session:</b> " + (60 * average).toFixed(0) + "min";
-  document.getElementById("info_tag").innerHTML = "<b>&empty; pro Tag:</b> " + (60 * total / days).toFixed(0) + "min";
+  document.getElementById("info_schnitt").innerHTML = "<b>Arith. Mittel Session:</b> " + (60 * average).toFixed(0) + "min";
+  document.getElementById("info_tag").innerHTML = "<b>Arith. Mittel Tag:</b> " + (60 * total / days).toFixed(0) + "min";
 
 }
 
