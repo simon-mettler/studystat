@@ -60,9 +60,9 @@ function variousCalc(dur) {
   average = dur.reduce(arrAvg) / dur.length;
 
   // Prints total (and sets to one decimal point).
-  document.getElementById("info_total").innerHTML = "<b>Aufwand total:</b> " + total.toFixed(1) + "h";
-  document.getElementById("info_schnitt").innerHTML = "<b>Arith. Mittel Session:</b> " + (60 * average).toFixed(0) + "min";
-  document.getElementById("info_tag").innerHTML = "<b>Arith. Mittel Tag:</b> " + (60 * total / days).toFixed(0) + "min";
+  document.getElementById("info_total").innerHTML = "<b>Aufwand total:</b> " + total.toFixed(1) + " h";
+  document.getElementById("info_schnitt").innerHTML = "<b>Arith. Mittel Session:</b> " + (60 * average).toFixed(0) + " min";
+  document.getElementById("info_tag").innerHTML = "<b>Arith. Mittel Tag:</b> " + (60 * total / days).toFixed(0) + " min";
 
 }
 

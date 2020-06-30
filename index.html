@@ -32,41 +32,15 @@
     <div class="grid">
 
       <div class="overview">
-				<p><b>Semester:</b> <a href="semester1.html" class="active">1</a> <a href="semester2.html">2</a> </p>
+				<p><b>Semester:</b> <a href="./" class="active">Übersicht</a> <a href="semester1.html">1</a> <a href="semester2.html">2</a> </p>
         <p id="info_total"></p>
         <p id="info_tag"></p>
         <p id="info_schnitt"></p>
       </div>
 
-      <div class="data-field subjects">
-        <p class="field-name">Fächer</p>
-        <p>
-          <b>IW:</b> Informationswissenschaft<br>
-          <b>ENG:</b> Englisch<br>
-          <b>WOR I:</b> Wissensorganisation und -repräsentation I<br>
-          <b>WIAR: </b> Wissenschaftliches Arbeiten: Grundlagen<br>
-          <b>WINF: </b> Wirtschaftsinformatik<br>
-          <b>ARWI: </b> Archivwissenschaft<br>
-          <b>BWL: </b> Betriebswirtschaftslehre<br>
-          <b>PSY: </b> Softskills Psychologie<br>
-          <b>NENT: </b> Nachhaltige Entwicklung<br>
-          <b>BIB: </b> Bibliothekswissenschaft<br>
-        </p>
-      </div>
-     
-      <div class="data-field gesamt_bar">
-        <p class="field-name">Aufwand nach Fach</p>
-        <div id="gesamt_bar"></div>
-      </div>
-      
-      <div class="data-field gesamt_pie">
-        <p class="field-name">Anteile am Total</p>
-        <div id="gesamt_pie"></div>
-      </div>
-
-      <div class="data-field timeWeekly">
-        <p class="field-name">Gesamtaufwand pro Woche</p>
-        <div id="timeWeekly"></div>
+			<div class="data-field gesamt_pie">
+        <p class="field-name">Semester</p>
+				<div id="total"></div>
       </div>
     
     </div>
@@ -74,11 +48,24 @@
   </div><!-- .content -->
   
   <footer>
-    <p><i>*Vollzeitstudium, Freizeitaufwand, Kontaktuntericht ausgeschlossen</i></p>
-    <p>Simon Mettler | Made with <a href="https://github.com/plotly/plotly.js" target="_blank">Plotly.js</a></p>
+    <p><i>*Vollzeitstudium, Freizeitaufwand, Kontaktuntericht ausgeschlossen</i>  |  Simon Mettler  |  Made with <a href="https://github.com/plotly/plotly.js" target="_blank">Plotly.js</a></p>
   </footer>
 
-  <script src="js/plotSem1.js"></script>
+  <script>
+
+		let data = [{
+			x: ['1 Semester (128.6 h)', '2 Semester (124.1 h)'],
+			y: [128.6, 124.1],
+    	type: 'bar',
+  	}];
+
+		let layout = {
+			yaxis: { ticksuffix: " h" }
+		}
+
+		Plotly.newPlot('total', data, layout);
+
+	</script>
 
 </body>
 </html>
