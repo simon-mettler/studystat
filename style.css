@@ -15,6 +15,7 @@ header {
   max-width: 1200px;
   margin: 0 auto;
 	margin-bottom: 190px;
+	padding: 0 20px;
 }
 
 .grid {
@@ -114,6 +115,23 @@ footer p {
   margin: 5px auto;
   text-align: center;
   font-size: .8em;
+}
+
+/* Mobile Layout */
+
+@media screen and (max-width: 890px) {
+
+	.data-field, .data-field.subjects, .overview {
+		grid-column: 1/7;
+	}
+
+}
+
+@media screen and (max-width: 500px) {
+	.subjects b {
+		display: block;
+		margin-top: 5px;
+	}
 }
 
 /* Removes plotly svg background */
