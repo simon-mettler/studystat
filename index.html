@@ -52,6 +52,32 @@
   </footer>
 
   <script>
+		// Svg download settings.
+		let svgDownload = {
+			format: 'svg', 
+			filename: 'studystat_simon-mettler',
+			height: 500,
+			width: 700,
+			scale: 1
+		}
+
+	  let config = {
+	    responsive: true, 
+	    displayModeBar: true, 
+	    displaylogo: false,
+	    toImageButtonOptions: svgDownload,
+	    modeBarButtonsToRemove: [
+	      'select2d', 
+	      'lasso2d', 
+	      'zoomIn2d', 
+	      'zoomOut2d', 
+	      'hoverCompareCartesian', 
+	      'toggleSpikelines', 
+	      'hoverClosestCartesian', 
+	      'autoScale2d'
+	    ]
+ 		 }
+
 
 		let data = [{
 			x: ['1 Semester (128.6 h)', '2 Semester (124.1 h)'],
@@ -63,7 +89,7 @@
 			yaxis: { ticksuffix: " h" }
 		}
 
-		Plotly.newPlot('total', data, layout);
+		Plotly.newPlot('total', data, layout, config);
 
 	</script>
 
