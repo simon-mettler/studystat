@@ -1,6 +1,6 @@
 // Load csv data.
 function makeplot() {
-  Plotly.d3.csv("data/semester_02.csv", function(data){ processData(data) } );
+	Plotly.d3.csv(param.csv, function(data){ processData(data) } );
 };
 
 // Processes .csv data.
@@ -18,6 +18,10 @@ function processData(allRows) {
     sdate.push( row['Start Date'] );
     edate.push( row['End Date'] );
 
+    // Maybe for later...
+    // stime.push( new Date("2020-01-01T" + row['Start Time']).getHours()); // Extract only hours (e.g. 17 for 17:08:45)
+    // etime.push(new Date("2020-01-01T" + row['End Time']).getHours() );
+
     // Rounds number.
     dur = dur.map(x => parseFloat(x).toFixed(1)); // Why does toFixed() return a string?
 
@@ -27,7 +31,6 @@ function processData(allRows) {
   gesamtBar(dur, project);
   gesamtPie(dur, project);
   timeWeekly(sdate, dur);
-
   variousCalc(dur);
 
 }
@@ -57,8 +60,8 @@ function variousCalc(dur) {
 
   // Prints total (and sets to one decimal point).
   document.getElementById("info_total").innerHTML = "<b>Aufwand total:</b> " + total.toFixed(1) + " h";
-  document.getElementById("info_schnitt").innerHTML = "<b>Arith. Mittel Session:</b> " + (60 * average).toFixed(0) + " min";
-  document.getElementById("info_tag").innerHTML = "<b>Arith. Mittel Tag:</b> " + (60 * total / days).toFixed(0) + " min";
+  document.getElementById("info_schnitt").innerHTML = "<b>Durchschnitt Session:</b> " + (60 * average).toFixed(0) + " min";
+  document.getElementById("info_tag").innerHTML = "<b>Durchschnitt Tag:</b> " + (60 * total / days).toFixed(0) + " min";
 
 }
 
@@ -151,9 +154,9 @@ function timeWeekly(sdate, dur) {
     y: dur,
     histfunc: "sum",
     xbins: {
-      start: '2020-02-10',
+      start: param.start,
       size: '604800000', // one week
-      end: '2020-06-28'
+      end: param.end
     },
     marker: {
       line: {
